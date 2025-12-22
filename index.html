@@ -37,55 +37,6 @@
         border-bottom: 1px solid rgba(255,255,255,0.1);
     }
 
-    /* 1. 背景呼吸明暗動畫 */
-@keyframes home-bg-breath {
-    0%, 100% { filter: brightness(1) contrast(1); }
-    50% { filter: brightness(0.7) contrast(1.1); } /* 變暗 30% 並加強對比 */
-}
-
-/* 2. 隨機微小閃爍（模擬老電影感） */
-@keyframes home-flicker {
-    0% { opacity: 0.1; }
-    5% { opacity: 0.15; }
-    10% { opacity: 0.1; }
-    15% { opacity: 0.2; }
-    25% { opacity: 0.1; }
-    100% { opacity: 0.15; }
-}
-
-/* 應用於首頁背景 */
-#home {
-    position: relative;
-    overflow: hidden;
-    /* 這裡原本的背景圖設定保持不變 */
-    animation: home-bg-breath 6s ease-in-out infinite; 
-}
-
-/* 疊加一個閃爍層，讓閃爍看起來更自然 */
-#home::after {
-    content: "";
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: #fff; /* 使用白色微弱閃爍 */
-    opacity: 0;
-    z-index: 1;
-    pointer-events: none;
-    animation: home-flicker 0.15s infinite;
-}
-
-/* 確保標題在閃爍層之上 */
-#home .title, #home .subtitle {
-    position: relative;
-    z-index: 2;
-    /* 讓文字也有輕微的呼吸感 */
-    animation: text-glow 3s ease-in-out infinite;
-}
-
-@keyframes text-glow {
-    0%, 100% { opacity: 1; text-shadow: 0 0 10px rgba(255,255,255,0.3); }
-    50% { opacity: 0.8; text-shadow: 0 0 20px rgba(255,255,255,0.1); }
-}
-    
     /* 精確偵測：具備滑鼠指針的裝置 (如 Mac/PC) 才開啟固定背景 */
     @media (min-width: 1025px) and (hover: hover) and (pointer: fine) {
         section { background-attachment: fixed !important; }
