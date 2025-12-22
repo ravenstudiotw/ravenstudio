@@ -40,7 +40,7 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
-        background-attachment: fixed;
+        background-attachment: scroll;
         background-size: cover;
         background-position: center;
         position: relative; z-index: 10;
@@ -48,6 +48,12 @@
     }
 
     /* 電腦版背景圖片 */
+    @media (min-width: 1025px) and (hover: hover) and (pointer: fine) {
+    section {
+        background-attachment: fixed; /* 讓 13 吋 Mac 也能有固定效果 */
+        }
+    }
+    
     #home { background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('images/home-PC.png'); } 
     #pricing { background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('images/price-PC.png'); }
     #booking { 
@@ -67,14 +73,24 @@
     /* ========================================
        3. 電腦版選單 (右側固定)
        ======================================== */
-    .floating-nav {
-        position: fixed;
-        right: 20px; top: 50%;
-        transform: translateY(-50%);
-        z-index: 1000;
-        display: flex; flex-direction: column; gap: 12px;
-        align-items: flex-end;
-    }
+    /* 讓選單展開/收合更順滑 */
+.nav-content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 15px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease-in-out; /* 使用標準緩動曲線 */
+}
+
+/* 點擊後的狀態保持不變 */
+.menu-checkbox:checked ~ .nav-content {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
 
     .social-pills {
         position: fixed;
@@ -120,7 +136,7 @@
     /* ========================================
        5. 手機版樣式 (最重要的修正處)
        ======================================== */
-    @media (max-width: 1180px) {
+    @media (max-width: 1400px) {
         section {
             padding: 100px 5% 60px 5% !important; /* 上方預留更多空間給選單 */
             background-attachment: scroll !important;
@@ -137,20 +153,10 @@
         #faq { background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('images/QA-M.png'); }
 
         /* 選單移至上方橫排 */
-        .floating-nav {
-            position: fixed; /* 固定在頂部 */
-            top: 15px; right: 0; left: 0;
-            transform: none;
-            flex-direction: row; /* 橫向排列 */
-            flex-wrap: wrap; /* 自動換行 */
-            justify-content: center;
-            padding: 15px 5px;
-            background: none; /* 手機版選單背景深一點避免看不清 */
-            backdrop-filter: none;
-            width: 100%;
-            gap: 5px;
-            align-items: center;
-        }
+        .menu-container {
+        top: 25px;
+        right: 25px;
+    }
 
         .social-pills {
             right: 15px;
@@ -182,13 +188,35 @@
 </head>
 <body>
 
-    <nav class="floating-nav">
-        <a href="#pricing" class="nav-btn">PRICE</a>
-        <a href="#booking" class="nav-btn">NOTICE</a>
-        <a href="#prep" class="nav-btn">PREP</a>
-        <a href="#aftercare-brows" class="nav-btn">CARE</a>
-        <a href="#faq" class="nav-btn">F.A.Q</a>
+    <div class="menu-container">
+    <input type="checkbox" id="menu-toggle" class="menu-checkbox">
+    <label for="menu-toggle" class="menu-trigger">
+        <span>MENU</span>
+    </label>
+    
+    <nav class="nav-content">
+        <a href="#pricing" class="nav-btn nav-link">PRICE</a>
+        <a href="#booking" class="nav-btn nav-link">NOTICE</a>
+        <a href="#prep" class="nav-btn nav-link">PREP</a>
+        <a href="#aftercare-brows" class="nav-btn nav-link">CARE</a>
+        <a href="#faq" class="nav-btn nav-link">F.A.Q</a>
     </nav>
+    </div>
+
+    <script>
+    // 取得選單開關的 Checkbox
+    const menuToggle = document.getElementById('menu-toggle');
+    // 取得所有的導覽連結
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    // 對每個連結監聽點擊事件
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            // 當按鈕被點擊時，取消勾選 Checkbox，選單就會收合
+            menuToggle.checked = false;
+        });
+    });
+    </script>
 
     <div class="social-pills">
         <a href="#home" class="circle-btn" title="返回頁首">
