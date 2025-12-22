@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RAVEN STUDIO</title>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
+
+    <style>
+        /* ========================================
+           1. 全域樣式與字體設定
+           ========================================
+        */
+        :root {
+            /* 在此調整全域主色調 */
+            --primary-color: #ffffff;
+            --accent-color: #808080; 
+            --bg-glass: rgba(255, 255, 255, 0.15); /* 霧面果凍底色 */
+            --text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'arial', 'Archivo Black', "Microsoft JhengHei", "微軟正黑體", sans-serif; /* 英式復古感字體 */
+        }
+
+        html {
+            scroll-behavior: smooth; /* 平滑捲動 */
+        }
+
+        body {
+            background-color: #0F0F0F;
+            color: var(--primary-color);
+            line-height: 1.8;
+        }
+
+        /* 禁止全站文字選取 */
+        body {
+            -webkit-user-select: none;  /* Chrome, Safari, Opera */
+            -moz-user-select: none;     /* Firefox */
+            -ms-user-select: none;      /* IE 10+ */
+            user-select: none;          /* 標準語法 */
+        }
+
+
+
+        /* ========================================
+           2. 背景圖片與區塊排版 (在此調整背景)
+           ========================================
+        */
+        section {
+            min-height: 100vh;
+            padding: 80px 15% 80px 10%; /* 留空間給右側選單 */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background-attachment: fixed; /* 背景固定 */
+            background-size: cover; /* 【可調整】cover 為填滿, contain 為完整顯示 */
+            background-position: center; /* 【可調整】center/top/bottom */
+            position: relative; z-index: 10;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* 各分頁背景圖片插槽 */
+        #home { animation: rock-flicker 0.3s linear 3 forwards; background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('images/home-PC.png'); } 
+        #pricing { background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('images/price-PC.png'); }
+        #booking { background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),url('images/booking-PC.png');
+            background-size: 90% auto; /* 【可調整】直接指定圖片寬高 */
+            background-position: center bottom; /* 【可調整】距離左邊 80%, 上方 50% */
+            background-repeat: no-repeat; }
+        
+        /* #prep 術前準備：影片背景專屬樣式 */
+        .video-container {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: -1; /* 墊在文字後方 */
+        }
+        .bg-video {
+            width: 100%;
+            height: 100%;
+            /* 【可調整】cover 為填滿(會裁切)；contain 為完整顯示(不裁切但會有黑邊) */
+            object-fit: cover; 
+            /* 【可調整】opacity 調整影片明暗度，避免干擾文字 */
+            opacity: 0.5; 
+        }
+
+        #aftercare-brows { background-image: url('images/browcare-PC.png');
+            background-size: 50% auto; /* 【可調整】直接指定圖片寬高 */
+            background-position: right center; /* 【可調整】距離左邊 80%, 上方 50% */
+            background-repeat: no-repeat; }
+        #aftercare-lip { background-image: url('images/lipcare-PC.png');
+            background-size: 30% auto; /* 【可調整】直接指定圖片寬高 */
+            background-position: 85% 70%; /* 【可調整】距離左邊 80%, 上方 50% */
+            background-repeat: no-repeat; }
+        #faq { background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('images/QA-PC.png'); }
+
+
+        /* 手機版背景 */
+        @media (max-width: 768px) {
+        /* 1. 統一讓所有 section 的背景在手機版填滿 */
+        section {
+            padding: 60px 80px 60px 20px;
+            background-attachment: scroll; /* 手機版不建議用 fixed，會導致背景模糊或閃爍 */
+            background-size: cover !important; /* 強制填滿螢幕 */
+            background-position: center center !important; /* 確保人像或重點在中間 */
+        }
+
+        /* 2. 手機版圖片路徑設定 */
+        #home { 
+            background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('images/home-M.png'); 
+        } 
+        #pricing { 
+            background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('images/price-M.png'); 
+        }
+        #booking { 
+            background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('images/booking-M.png'); 
+            background-repeat: no-repeat;
+        }
+        #aftercare-brows { 
+            background-image: url('images/brow-M.png'); 
+        }
+        #aftercare-lip { 
+            background-image: url('images/lip-M.png'); 
+        }
+        #faq { 
+            background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('images/QA-M.png'); 
+        }
+
+        /* 3. 手機版文字大小微調 */
+        h1.title { 
+            font-size: 3.5rem; /* 稍微放大一點點 */
+        }
+    
+        .price-item {
+            width: 100%; /* 手機版讓價目表佔滿寬度，比較好閱讀 */
+        }
+
+        .content-box {
+            max-width: 100%; /* 讓內容方框在手機版不會太窄 */
+            padding: 20px;
+        }
+
+        /* 4. 導覽列縮小一點避免擋到字 */
+        .nav-btn { 
+            width: 70px; 
+            font-size: 9px; 
+        }
+    }
+
+
+        @keyframes rock-flicker {
+            0%, 100% { opacity: 1; }
+            33% { opacity: 0.8; }
+            35% { opacity: 0.9; }
+            66% { opacity: 0.7; }
+            68% { opacity: 1; }
+        }
+
+        /* ========================================
+           3. 右側浮動選單 (霧面果凍感)
+           ========================================
+        */
+        .floating-nav {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 12px; /* 按鈕之間的間距 */
+            align-items: flex-end;
+        }
+
+        .nav-btn {
+            width: 100px; /* 【可調整】選單按鈕寬度 */
+            padding: 10px;
+            text-align: center;
+            text-decoration: none;
+            color: #fff;
+            font-size: 10px;
+            font-weight: normal;
+            background: var(--bg-glass);
+            backdrop-filter: blur(10px); /* 磨砂玻璃效果 */
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 10px; /* 導圓角長方形 */
+            transition: 0.3s;
+            letter-spacing: 1px;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateX(-5px);
+        }
+
+        /* 圓形按鈕樣式 (返回/聯絡) */
+        .circle-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--accent-color);
+            margin-top: 1px; /* 與上方選單做間隔 */
+            transition: 0.3s;
+        }
+
+        .circle-btn img {
+            width: 60%; /* 【可調整】圖示大小 */
+            height: 60%;
+            object-fit: contain;
+        }
+
+        .circle-btn:hover {
+            transform: scale(1.1);
+            border-color: #fff;
+        }
+
+        /* ========================================
+           4. 文字內容樣式
+           ========================================
+        */
+        h1.title {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: clamp(3rem, 12vw, 7rem); /* 讓字體在手機與電腦間自動縮放 */
+            font-weight: 400; /* Archivo Black 本身就是最粗體，不需額外加粗 */
+            align-items: center;
+            text-align: center;
+            text-transform: uppercase; /* 強制大寫 */
+            letter-spacing: 0px; /* 緊湊的字距更有搖滾味 */
+            line-height: 1.2;
+            animation: blink 0.7s 3 forwards;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            text-align: center;
+            letter-spacing: 3px;
+            font-style: normal;
+            color: #ffffff;
+        }
+
+        h2.section-title {
+            font-size: 2.5rem; /* 【可調整】各分頁標題大小 */
+            font-weight: bold;
+            padding-left: 15px;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+        }
+
+        .content-box {
+            background: rgba(0,0,0,0.4);
+            padding: 30px;
+            border-radius: 5px;
+            max-width: 600px;
+        }
+
+        ul { list-style: none; }
+        li { font-size: 14px; margin-bottom: 20px; position: relative; }
+        
+        .price-item {
+            display: flex;
+            justify-content: space-between;
+            /* 關鍵：縮小寬度並水平置中 */
+            width: 60%;      /* 【可調整】數字越小，兩者越靠近 */
+            margin: 0 auto;  /* 讓整個區塊置中 */
+            font-size: 14px;
+            text-align: left;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .highlight { color: var(--accent-color); font-weight: bold; }
+
+        .content-text {
+            display: flex;
+            font-size: 13px;
+            text-align: left;
+            margin-bottom: 10px;
+        }
+
+        /* 閃爍動畫關鍵影格 */
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* 手機版適應 */
+        @media (max-width: 768px) {
+            h1.title { font-size: 3rem; }
+            section { padding: 60px 80px 60px 20px; }
+            .floating-nav { right: 10px; }
+            .nav-btn { width: 80px; font-size: 11px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="floating-nav">
+        <a href="#pricing" class="nav-btn">PRICE</a>
+        <a href="#booking" class="nav-btn">NOTICE</a>
+        <a href="#prep" class="nav-btn">PREPARATION</a>
+        <a href="#aftercare-brows" class="nav-btn">AFTERCARE</a>
+        <a href="#faq" class="nav-btn">F.A.Q</a><br><br>
+
+        <a href="#home" class="circle-btn" title="返回頁首">
+            <img src="https://cdn-icons-png.flaticon.com/512/25/25678.png" alt="Up" style="filter: invert(1);">
+        </a>
+        <a href="https://lin.ee/8j6x32m" class="circle-btn" title="LINE">
+            <img src="images/line.png" alt="我要預約">
+        </a>
+        <a href="https://www.instagram.com/ravenstudiotw/" class="circle-btn" title="Instagram">
+            <img src="images/instagram.png" alt="Instagram">
+        </a>
+    </nav>
+
+    <section id="home">
+        <h1 class="title">RAVEN STUDIO</h1>
+        <p class="subtitle">Designed to Enhance, Not Replace.</p>
+    </section>
+
+    <section id="pricing">
+        <h2 class="section-title">Price List</h2>
+            <div class="price-item"><span>飄眉 | hairstroke brows</span> <span>$9000</span></div>
+            <div class="price-item"><span>霧眉 | powder brows</span> <span>$8000</span></div>
+            <div class="price-item"><span>霧唇 | lip blush</span> <span>$10000</span></div>
+            <div class="price-item"><span>眼線 | shaded eyeliner</span> <span>$7000</span></div>
+            <br>
+            <br>
+            <br>
+            <div class="price-item"><span>補色 | touch-up</span></div>
+            <div class="price-item"><span>三個月內 | within 3 months</span> <span>free once</span></div>
+            <div class="price-item"><span>六個月內 | within 6months</span> <span>40% off</span></div>
+            <div class="price-item"><span>一年內 | within 1 year</span> <span>20% off</span></div>
+    </section>
+
+    <section id="booking">
+        <h2 class="section-title">Booking Notice</h2>
+        <div class="content-box">
+            <p style="color: #696969; font-size: 12px; margin-bottom: 50px;">為了保障每位顧客的權益與服務品質，請您在預約前詳閱以下內容：</p>
+            
+            <p class="highlight">預約方式</p>
+            <p class="content-text">採預約制，請提前私訊／填寫表單預約。<br>預約完成後，將提供服務項目、日期與時間確認。</p><br>
+
+            <p class="highlight">定金規範</p>
+            <p class="content-text">預約需支付 定金 NT$ 500 (可折抵當日消費)。<br>定金支付完成後，預約才視為成立。<br>定金不接受退款，僅限依規定更改一次時間。</p><br>
+            <p class="highlight">改期與取消</p>
+            <p class="content-text">改期請於 48 小時前告知，可免費改期一次。<br>48 小時內改期或臨時取消，定金將不予退還。<br>無故未到視同取消，定金作廢。</p><br>
+
+            <p class="highlight">遲到規則</p>
+            <p class="content-text">遲到超過 15 分鐘，視現場狀況可能縮短操作時間或取消。<br>若取消，定金恕不退還。</p><br>
+
+            <p class="highlight">操作前注意事項</p>
+            <p class="content-text">以下情況請提前告知：<br>  ・ 懷孕或哺乳中<br>  ・ 皮膚疾病<br>  ・ 蟹足腫體質<br>  ・ 正在服用抗凝血藥物或有慢性疾病<br>  ・ 曾做過紋繡／雷射／手術<br><br>⚠️ 隱瞞重要身體狀況，造成後續問題，恕不負責。</p><br>
+
+            <p class="highlight">操作後須知</p>
+            <p class="content-text">紋繡為半永久項目，需經歷修復期與返色期。顏色會因個人膚質、生活習慣而有所差異。<br>不屬於「立即完美」服務，請能接受自然變化再行預約。</p><br>
+
+            <p class="highlight">服務聲明</p>
+            <p class="content-text">紋繡屬個人審美與客製化服務，非醫療行為，亦不保證與想像或照片 100% 相同。<br>完成操作後，不接受因個人主觀因素要求退款。</p>
+            <p style="color: #696969; font-size: 12px; margin-top: 50px;">完成預約即表示您已閱讀並同意以上所有內容。<br>感謝您的理解與信任。</p>
+        </div>
+    </section>
+
+    <section id="prep">
+        <div class="video-container">
+        <video autoplay muted loop playsinline class="bg-video">
+            <source src="video/prep-PC.mp4" type="video/mp4">
+        </video>
+        </div>
+
+        <h2 class="section-title">Pre-op Preparation</h2>
+        <div class="content-box">
+            <ul>
+                <li>不接受蟹足腫、懷孕、糖尿病或其他相關凝血疾病的客人，若無如實告知導致施作後副作用，後果須自行承擔。</li>
+                <li>上色及留色情況因本身膚況條件、個人體質、生活習慣及照護方式不同而有所差異。</li>
+                <li>施作前後一週請維持良好作息，不建議食用辛辣、油炸、海鮮及飲酒，易導致皮膚敏感疼痛及腫脹發炎影響留色。</li>
+                <li>施作前一週加強操作部位保濕，避免使用含酸及酒精成分的保養品。易造成施作部位脫皮，導致上色及留色效果不佳。</li>
+                <li>無創除色、酸類療程至少三週後才能施作。</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="aftercare-brows">
+        <h2 class="section-title">Brows & Eyeliner Care</h2>
+        <div class="content-box">
+            <ul>
+                <li>施作後三小時內不要碰水。</li>
+                <li>可正常洗臉，但清潔用品、保養品、化妝品需避開施作部位一週。<br>碰到水請拿紙巾<strong>壓乾</strong>，不可用力擦拭。</li>
+                <li>結痂均屬正常，嚴禁用手摳落痂皮！避免色料同時被摳落。</li>
+                <li>脫痂前禁止游泳、溫泉、桑拿等活動。</li>
+                <li>結痂後因每個人新陳代謝、施作後保養、年齡與皮膚性質不同而有不同的掉色狀況。<br>若顏色變淡、甚至無色，均屬正常，待回來補色即可。</li>
+                <li>含有酒精、酸類成分的保養品及化妝品請避開操作部位，以免留色變灰、青色。</li>
+                <li>修復期不宜曝曬陽光，易導致留色發藍。</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="aftercare-lip">
+        <h2 class="section-title">Lip Care</h2>
+        <div class="content-box">
+            <ul>
+                <li>施作後腫脹是正常的，請多講話拉伸嘴唇幫助消腫。</li>
+                <li>痂皮脫落前保持乾淨乾燥，勿塗過厚護唇產品以免發炎。</li>
+                <li>唇色每天都會變化，請勿自行剝除痂皮。</li>
+                <li>避免接觸生水，刷牙洗臉請使用飲用水。</li>
+                <li>七日內禁食辛辣、海鮮、菸酒等刺激物。</li>
+                <li>操作<strong>隔天</strong>開始若感到乾燥可早晚「薄擦」護唇膏。</li>
+                <li>返色期為兩個月，脫痂後顏色變化皆為正常過渡期。</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="faq">
+        <h2 class="section-title">F.A.Q</h2>
+        <div class="content-box" style="max-height: 70vh; overflow-y: auto;">
+            <p class="highlight">Q1：紋繡是永久的嗎？</p>
+            <p class="content-text">不是。屬於半永久技術。<br>色料會隨時間與代謝逐漸淡化，通常可維持 1～2 年，依個人膚質與生活習慣不同而異。</p><br>
+
+            <p class="highlight">Q2：會痛嗎？</p>
+            <p class="content-text">操作前會使用舒緩產品，大多數人形容為輕微刺刺感。</p><br>
+
+            <p class="highlight">Q3：為什麼需要補色？</p>
+            <p class="content-text">補色可讓顏色更穩定、線條更完整。</p><br>
+
+            <p class="highlight">Q4：做完當天可以上班／出門嗎？</p>
+            <p class="content-text">可以。<br>術後可能會有微紅、微腫或顏色較深，通常 1～3 天內改善，不影響日常作息。</p><br>
+
+            <p class="highlight">Q5：修復期會脫皮嗎？</p>
+            <p class="content-text">部分客人有輕微乾燥或細小脫屑，請讓皮膚自然修復勿摳抓。</p><br>
+
+            <p class="highlight">Q6：為什麼顏色會變淡？</p>
+            <p class="content-text">這是正常現象。<br>剛做完顏色較深，經修復期會慢慢轉為柔和色感，最終呈現需約 3～4 週。</p><br>
+
+            <p class="highlight">Q7：可以指定跟照片一模一樣嗎？</p>
+            <p class="content-text">紋繡為客製化服務，無法 100% 複製，會以最適合你的風格為目標。</p><br>
+
+            <p class="highlight">Q8：什麼情況不適合做紋繡？</p>
+            <p class="content-text">懷孕哺乳、皮膚疾病、蟹足腫、糖尿病或近期做過雷射醫美者。</p><br>
+
+            <p class="highlight">Q9：做完後需要注意什麼？</p>
+            <p class="content-text">  ・ 避免高溫潮濕環境<br>  ・ 避免濃妝、去角質產品<br>  ・ 遵守保養說明以穩定留色</p><br>
+
+            <p class="highlight">Q10：如果不喜歡可以洗掉嗎？</p>
+            <p class="content-text">需透過淡化或雷射處理，因此事前溝通非常重要。</p>
+        </div>
+    </section>
+
+</body>
+</html>
