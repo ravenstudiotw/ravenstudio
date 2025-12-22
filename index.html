@@ -108,7 +108,7 @@
     .subtitle { font-size: 1.2rem; text-align: center; letter-spacing: 3px; }
     h2.section-title { font-size: 2.5rem; font-weight: bold; margin-bottom: 30px; text-transform: uppercase; }
     .content-box { background: rgba(0,0,0,0.4); padding: 30px; border-radius: 5px; max-width: 600px; }
-    .price-item { display: flex; justify-content: space-between; width: 60%; margin: 0 auto 10px auto; font-size: 14px; text-transform: uppercase; }
+    .price-item { display: flex; justify-content: space-between; width: 60%; margin: 0 auto 10px auto; font-size: 13px; text-transform: uppercase; }
     .highlight { color: var(--accent-color); font-weight: bold; }
     .content-text { font-size: 13px; text-align: left; margin-bottom: 10px; }
     ul { list-style: none; }
@@ -120,9 +120,9 @@
     /* ========================================
        5. 手機版樣式 (最重要的修正處)
        ======================================== */
-    @media (max-width: 768px) {
+    @media (max-width: 1180px) {
         section {
-            padding: 100px 20px 60px 20px !important; /* 上方預留更多空間給選單 */
+            padding: 100px 5% 60px 5% !important; /* 上方預留更多空間給選單 */
             background-attachment: scroll !important;
             background-size: cover !important;
             background-position: center center !important;
@@ -139,14 +139,14 @@
         /* 選單移至上方橫排 */
         .floating-nav {
             position: fixed; /* 固定在頂部 */
-            top: 0; right: 0; left: 0;
+            top: 15px; right: 0; left: 0;
             transform: none;
             flex-direction: row; /* 橫向排列 */
             flex-wrap: wrap; /* 自動換行 */
             justify-content: center;
             padding: 15px 5px;
             background: none; /* 手機版選單背景深一點避免看不清 */
-            backdrop-filter: blur(15px);
+            backdrop-filter: none;
             width: 100%;
             gap: 5px;
             align-items: center;
@@ -165,10 +165,10 @@
         }
 
         .nav-btn {
-            width: 80px; /* 寬度自動 */
+            width: 50px; /* 寬度自動 */
             min-width: 70px;
             padding: 6px 5px;
-            font-size: 7px;
+            font-size: 8px;
             border-radius: 5px;
         }
 
@@ -185,8 +185,8 @@
     <nav class="floating-nav">
         <a href="#pricing" class="nav-btn">PRICE</a>
         <a href="#booking" class="nav-btn">NOTICE</a>
-        <a href="#prep" class="nav-btn">PREPARATION</a>
-        <a href="#aftercare-brows" class="nav-btn">AFTERCARE</a>
+        <a href="#prep" class="nav-btn">PREP</a>
+        <a href="#aftercare-brows" class="nav-btn">CARE</a>
         <a href="#faq" class="nav-btn">F.A.Q</a>
     </nav>
 
@@ -216,7 +216,7 @@
             <br>
             <br>
             <br>
-            <div class="price-item"><span>補色 | touch-up</span></div>
+            <div class="price-item"><strong>補色 | touch-up</strong></div>
             <div class="price-item"><span>三個月內 | within 3 months</span> <span>free once</span></div>
             <div class="price-item"><span>六個月內 | within 6months</span> <span>40% off</span></div>
             <div class="price-item"><span>一年內 | within 1 year</span> <span>20% off</span></div>
