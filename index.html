@@ -112,7 +112,7 @@
     .highlight { color: var(--accent-color); font-weight: bold; }
     .content-text { font-size: 13px; text-align: left; margin-bottom: 10px; }
     ul { list-style: none; }
-        li { font-size: 13px; text-align: left; margin-bottom: 10px; position: relative; }
+        li { font-size: 13px; text-align: left; margin-bottom: 15px; position: relative; }
 
     @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
     @keyframes rock-flicker { 0%, 100% { opacity: 1; } 33% { opacity: 0.8; } 66% { opacity: 0.7; } }
@@ -144,11 +144,11 @@
             flex-direction: row; /* 橫向排列 */
             flex-wrap: wrap; /* 自動換行 */
             justify-content: center;
-            padding: 15px 10px;
-            background: rgba(0,0,0,0.6); /* 手機版選單背景深一點避免看不清 */
+            padding: 15px 5px;
+            background: none; /* 手機版選單背景深一點避免看不清 */
             backdrop-filter: blur(15px);
             width: 100%;
-            gap: 8px;
+            gap: 5px;
             align-items: center;
         }
 
@@ -164,12 +164,8 @@
             height: 45px;
         }
 
-        section {
-            padding: 120px 20px 60px 20px !important;
-        }
-
         .nav-btn {
-            width: 90px; /* 寬度自動 */
+            width: 80px; /* 寬度自動 */
             min-width: 70px;
             padding: 6px 5px;
             font-size: 7px;
@@ -179,7 +175,7 @@
         /* 文字縮放 */
         h1.title { font-size: 2.5rem; }
         .subtitle { font-size: 0.7rem; text-align: center; letter-spacing: 3px; }
-        .price-item { width: 100%; }
+        .price-item { width: 90%; }
         h2.section-title { font-size: 1.8rem; }
     }
 </style>
@@ -278,10 +274,11 @@
         <div class="content-box">
             <ul>
                 <li>施作後三小時內不要碰水。</li>
-                <li>可正常洗臉，但清潔用品、保養品、化妝品需避開施作部位一週。<br>碰到水請拿紙巾<strong>壓乾</strong>，不可用力擦拭。</li>
+                <li>可正常洗臉，但清潔用品、保養品、化妝品需避開施作部位一週。</li>
+                <li>碰到水請拿紙巾<strong>壓乾</strong>，不可用力擦拭。</li>
                 <li>結痂均屬正常，嚴禁用手摳落痂皮！避免色料同時被摳落。</li>
                 <li>脫痂前禁止游泳、溫泉、桑拿等活動。</li>
-                <li>結痂後因每個人新陳代謝、施作後保養、年齡與皮膚性質不同而有不同的掉色狀況。<br>若顏色變淡、甚至無色，均屬正常，待回來補色即可。</li>
+                <li>結痂後因每個人新陳代謝、施作後保養、年齡與皮膚性質不同而有不同的掉色狀況。若顏色變淡、甚至無色，均屬正常，待回來補色即可。</li>
                 <li>含有酒精、酸類成分的保養品及化妝品請避開操作部位，以免留色變灰、青色。</li>
                 <li>修復期不宜曝曬陽光，易導致留色發藍。</li>
             </ul>
