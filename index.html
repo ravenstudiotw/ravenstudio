@@ -76,6 +76,16 @@
         align-items: flex-end;
     }
 
+    .social-pills {
+        position: fixed;
+        right: 20px;
+        bottom: 30px; /* 固定在右下角 */
+        z-index: 1001;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
     .nav-btn {
         width: 100px; padding: 10px; text-align: center; text-decoration: none;
         color: #fff; font-size: 10px; background: var(--bg-glass);
@@ -140,8 +150,24 @@
             align-items: center;
         }
 
+        .social-pills {
+            right: 15px;
+            bottom: 20px;
+            flex-direction: column; /* 依然垂直排列 */
+            gap: 10px;
+        }
+
+        .circle-btn {
+            width: 45px; /* 手機版稍微放大，方便手指點擊 */
+            height: 45px;
+        }
+
+        section {
+            padding: 120px 20px 60px 20px !important;
+        }
+
         .nav-btn {
-            width: 80px; /* 寬度自動 */
+            width: auto; /* 寬度自動 */
             min-width: 70px;
             padding: 6px 10px;
             font-size: 8px;
@@ -162,8 +188,10 @@
         <a href="#booking" class="nav-btn">NOTICE</a>
         <a href="#prep" class="nav-btn">PREPARATION</a>
         <a href="#aftercare-brows" class="nav-btn">AFTERCARE</a>
-        <a href="#faq" class="nav-btn">F.A.Q</a><br><br>
+        <a href="#faq" class="nav-btn">F.A.Q</a>
+    </nav>
 
+    <div class="social-pills">
         <a href="#home" class="circle-btn" title="返回頁首">
             <img src="https://cdn-icons-png.flaticon.com/512/25/25678.png" alt="Up" style="filter: invert(1);">
         </a>
@@ -173,7 +201,7 @@
         <a href="https://www.instagram.com/ravenstudiotw/" class="circle-btn" title="Instagram">
             <img src="images/instagram.png" alt="Instagram">
         </a>
-    </nav>
+    </div>
 
     <section id="home">
         <h1 class="title">RAVEN STUDIO</h1>
