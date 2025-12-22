@@ -102,7 +102,7 @@
         @media (max-width: 768px) {
         /* 1. 統一讓所有 section 的背景在手機版填滿 */
         section {
-            padding: 60px 80px 60px 20px;
+            padding: 100px 20px 60px 20px;
             background-attachment: scroll; /* 手機版不建議用 fixed，會導致背景模糊或閃爍 */
             background-size: cover !important; /* 強制填滿螢幕 */
             background-position: center center !important; /* 確保人像或重點在中間 */
@@ -147,6 +147,31 @@
         .nav-btn { 
             width: 70px; 
             font-size: 9px; 
+        }
+
+
+        /* 1. 將右側浮動選單改為上方水平選單 */
+        .floating-nav {
+            position: absolute; /* 改為絕對定位，放在頁面最上方 */
+            top: 20px;
+            right: 0;
+            left: 0;
+            transform: none; /* 取消電腦版的垂直置中 */
+            flex-direction: row; /* 從垂直改為水平排列 */
+            flex-wrap: wrap; /* 如果按鈕太多，自動換行 */
+            justify-content: center; /* 按鈕水平置中 */
+            gap: 8px;
+            padding: 0 10px;
+            width: 100%;
+            align-items: center;
+        }
+
+        /* 2. 調整按鈕大小，讓它們在手機上一橫排擺放 */
+        .nav-btn {
+            width: 100px; /* 寬度自動，根據文字長度 */
+            padding: 6px 12px;
+            font-size: 8px;
+            border-radius: 6px;
         }
     }
 
