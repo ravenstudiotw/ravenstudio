@@ -8,31 +8,21 @@
 
 <style>
     /* ========================================
-       1. 全域樣式與字體設定
+       1. 全域樣式與變數設定
        ======================================== */
     :root {
         --primary-color: #ffffff;
         --accent-color: #808080; 
-        --bg-glass: rgba(255, 255, 255, 0.15); 
-        --text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        --bg-glass: rgba(255, 255, 255, 0.1); 
+        --bg-glass-hover: rgba(255, 255, 255, 0.2);
     }
 
-    * {
-        margin: 0; padding: 0; box-sizing: border-box;
-        font-family: 'arial', 'Archivo Black', "Microsoft JhengHei", sans-serif;
-    }
-
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'arial', 'Archivo Black', "Microsoft JhengHei", sans-serif; }
     html { scroll-behavior: smooth; }
-
-    body {
-        background-color: #0F0F0F;
-        color: var(--primary-color);
-        line-height: 1.8;
-        -webkit-user-select: none; user-select: none;
-    }
+    body { background-color: #0F0F0F; color: var(--primary-color); line-height: 1.8; -webkit-user-select: none; user-select: none; }
 
     /* ========================================
-       2. 電腦版區塊排版
+       2. 區塊排版 (預設為桌機版效果)
        ======================================== */
     section {
         min-height: 100vh;
@@ -40,28 +30,27 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
-        background-attachment: scroll;
+        background-attachment: scroll; /* 桌機預設固定背景 */
         background-size: cover;
         background-position: center;
         position: relative; z-index: 10;
         border-bottom: 1px solid rgba(255,255,255,0.1);
     }
 
-    /* 電腦版背景圖片 */
+   /* ========================================
+      3. 電腦版專屬：只有具備「滑鼠」且「大螢幕」才開啟固定效果
+      這會精準排除 iPad Pro (因為它是觸控) 並包含 13 吋以上的 Mac
+      ======================================== */
     @media (min-width: 1025px) and (hover: hover) and (pointer: fine) {
     section {
-        background-attachment: fixed; /* 讓 13 吋 Mac 也能有固定效果 */
-        }
+        background-attachment: fixed !important; /* 強制開啟 Mac 的固定效果 */
+     }
     }
-    
+
+    /* 背景圖片設定 (PC路徑) */
     #home { background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('images/home-PC.png'); } 
     #pricing { background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('images/price-PC.png'); }
-    #booking { 
-        background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),url('images/booking-PC.png');
-        background-size: 90% auto;
-        background-position: center bottom;
-        background-repeat: no-repeat;
-    }
+    #booking { background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('images/booking-PC.png'); background-size: 90% auto; background-position: center bottom; background-repeat: no-repeat; }
     #aftercare-brows { background-image: url('images/browcare-PC.png'); background-size: 50% auto; background-position: right center; background-repeat: no-repeat; }
     #aftercare-lip { background-image: url('images/lipcare-PC.png'); background-size: 30% auto; background-position: 85% 70%; background-repeat: no-repeat; }
     #faq { background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('images/QA-PC.png'); }
@@ -71,75 +60,97 @@
     .bg-video { width: 100%; height: 100%; object-fit: cover; opacity: 0.5; }
 
     /* ========================================
-       3. 電腦版選單 (右側固定)
+       4. 懸浮選單系統 (Checkbox Hack)
        ======================================== */
-    /* 1. 容器固定在右上角 */
-.menu-container {
-    position: fixed;
-    top: 25px;
-    right: 25px;
-    z-index: 9999;
-    text-align: right;
-}
+    .menu-container {
+        position: fixed;
+        top: 25px;
+        right: 25px;
+        z-index: 9999;
+        text-align: right;
+    }
 
-/* 2. 隱藏核取方塊 */
-.menu-checkbox {
-    display: none;
-}
+    .menu-checkbox { display: none; }
 
-/* 3. 統一按鈕樣式 (MENU按鈕 與 選單按鈕共用) */
-.nav-btn {
-    display: block;
-    width: 100px;           /* 統一寬度 */
-    padding: 10px;
-    margin-bottom: 8px;     /* 按鈕之間的間距 */
-    text-align: center;
-    text-decoration: none;
-    color: #fff;
-    font-size: 11px;
-    background: rgba(255, 255, 255, 0.1); /* 玻璃質感背景 */
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 10px;
-    cursor: pointer;
-    transition: 0.3s;
-}
+    /* 統一按鈕樣式 */
+    .nav-btn {
+        display: block;
+        width: 100px;
+        padding: 10px;
+        text-align: center;
+        text-decoration: none;
+        color: #fff;
+        font-size: 11px;
+        background: var(--bg-glass);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
 
-/* 總按鈕專屬微調 (因為它是 label 而非 a 標籤) */
+    /* 讓總按鈕容器內部的線條置中 */
 .menu-trigger {
-    margin-bottom: 0;       /* 初始狀態沒展開時不需要下間距 */
-    font-weight: bold;
-    letter-spacing: 1px;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 50px !important; /* 縮窄一點，更像圖示 */
+    height: 45px;
 }
 
-/* 4. 展開後的選單內容 (預設隱藏) */
-.nav-content {
+/* 三條線的容器 */
+.menu-icon {
+    width: 20px;
+    height: 14px;
+    position: relative;
     display: flex;
     flex-direction: column;
-    margin-top: 10px;       /* 與 MENU 按鈕的距離 */
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-10px);
+    justify-content: space-between;
+}
+
+/* 線條本體樣式 */
+.menu-icon span {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: #fff;
+    border-radius: 2px;
     transition: all 0.3s ease-in-out;
 }
 
-/* 當點擊 MENU 後展開 */
-.menu-checkbox:checked ~ .nav-content {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
+/* --- 點擊後的變形動畫 (變成 X) --- */
+.menu-checkbox:checked ~ .menu-trigger .menu-icon span:nth-child(1) {
+    transform: translateY(6px) rotate(45deg);
 }
 
-/* 點擊後 MENU 按鈕的視覺反饋 (可選) */
-.menu-checkbox:checked ~ .menu-trigger {
-    background: rgba(255, 255, 255, 0.2);
-    border-color: rgba(255, 255, 255, 0.5);
+.menu-checkbox:checked ~ .menu-trigger .menu-icon span:nth-child(2) {
+    opacity: 0; /* 中間那條消失 */
 }
 
+.menu-checkbox:checked ~ .menu-trigger .menu-icon span:nth-child(3) {
+    transform: translateY(-6px) rotate(-45deg);
+}
+
+    .nav-content {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 8px;
+        margin-top: 10px;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: all 0.3s ease-in-out;
+    }
+
+    /* ========================================
+       4. 社交按鈕 (右下角)
+       ======================================== */
     .social-pills {
         position: fixed;
         right: 20px;
-        bottom: 30px; /* 固定在右下角 */
+        bottom: 30px;
         z-index: 1001;
         display: flex;
         flex-direction: column;
@@ -155,7 +166,7 @@
     .circle-btn img { width: 60%; height: 60%; object-fit: contain; }
 
     /* ========================================
-       4. 文字與內容樣式
+       5. 內容文字樣式
        ======================================== */
     h1.title { font-family: 'Archivo Black', sans-serif; font-size: clamp(3rem, 12vw, 7rem); text-align: center; text-transform: uppercase; line-height: 1.2; animation: blink 0.7s 3 forwards; }
     .subtitle { font-size: 1.2rem; text-align: center; letter-spacing: 3px; }
@@ -164,52 +175,32 @@
     .price-item { display: flex; justify-content: space-between; width: 60%; margin: 0 auto 10px auto; font-size: 13px; text-transform: uppercase; }
     .highlight { color: var(--accent-color); font-weight: bold; }
     .content-text { font-size: 13px; text-align: left; margin-bottom: 10px; }
-    ul { list-style: none; }
-        li { font-size: 13px; text-align: left; margin-bottom: 15px; position: relative; }
+    ul li { font-size: 13px; text-align: left; margin-bottom: 15px; list-style: none; }
 
     @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
-    @keyframes rock-flicker { 0%, 100% { opacity: 1; } 33% { opacity: 0.8; } 66% { opacity: 0.7; } }
 
     /* ========================================
-       5. 手機版樣式 (最重要的修正處)
+       6. 響應式優化 (手機與 iPad 12.9")
        ======================================== */
     @media (max-width: 1400px) {
         section {
-            padding: 15% 5% 15% 5% !important; /* 上方預留更多空間給選單 */
-            background-attachment: scroll !important;
-            background-size: cover !important;
-            background-position: center center !important;
+            padding: 120px 8% 60px 8% !important; 
+            background-attachment: scroll !important; /* 解決變形關鍵 */
         }
 
-        /* 手機版背景圖片 */
+        /* 更換手機版圖片路徑 */
         #home { background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('images/home-M.png'); } 
         #pricing { background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('images/price-M.png'); }
-        #booking { background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('images/booking-M.png'); }
-        #aftercare-brows { background-image: url('images/brow-M.png'); }
-        #aftercare-lip { background-image: url('images/lip-M.png'); }
+        #booking { background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('images/booking-M.png'); background-size: cover; }
+        #aftercare-brows { background-image: url('images/brow-M.png'); background-size: cover; }
+        #aftercare-lip { background-image: url('images/lip-M.png'); background-size: cover; }
         #faq { background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('images/QA-M.png'); }
 
-        /* 選單移至上方橫排 */
-        .menu-container {
-        top: 25px;
-        right: 25px;
-    }
+        .social-pills { right: 15px; bottom: 20px; }
+        .circle-btn { width: 45px; height: 45px; }
 
-        .social-pills {
-            right: 15px;
-            bottom: 20px;
-            flex-direction: column; /* 依然垂直排列 */
-            gap: 10px;
-        }
-
-        .circle-btn {
-            width: 45px; /* 手機版稍微放大，方便手指點擊 */
-            height: 45px;
-        }
-
-        /* 文字縮放 */
         h1.title { font-size: 2.5rem; }
-        .subtitle { font-size: 0.7rem; text-align: center; letter-spacing: 3px; }
+        .subtitle { font-size: 0.7rem; }
         .price-item { width: 90%; }
         h2.section-title { font-size: 1.8rem; }
     }
@@ -218,44 +209,33 @@
 <body>
 
     <div class="menu-container">
-    <input type="checkbox" id="menu-toggle" class="menu-checkbox">
-    <label for="menu-toggle" class="menu-trigger nav-btn">
-        MENU
-    </label>
-    
-    <nav class="nav-content">
-        <a href="#pricing" class="nav-btn nav-link">PRICE</a>
-        <a href="#booking" class="nav-btn nav-link">NOTICE</a>
-        <a href="#prep" class="nav-btn nav-link">PREP</a>
-        <a href="#aftercare-brows" class="nav-btn nav-link">CARE</a>
-        <a href="#faq" class="nav-btn nav-link">F.A.Q</a>
-    </nav>
-</div>
-
-    <script>
-    // 取得選單開關的 Checkbox
-    const menuToggle = document.getElementById('menu-toggle');
-    // 取得所有的導覽連結
-    const navLinks = document.querySelectorAll('.nav-link');
-
-    // 對每個連結監聽點擊事件
-    navLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            // 當按鈕被點擊時，取消勾選 Checkbox，選單就會收合
-            menuToggle.checked = false;
-        });
-    });
-    </script>
+        <input type="checkbox" id="menu-toggle" class="menu-checkbox">
+        <label for="menu-toggle" class="menu-trigger nav-btn">
+        <div class="menu-icon">
+             <span></span>
+             <span></span>
+             <span></span>
+        </div>
+        </label>
+        
+        <nav class="nav-content">
+            <a href="#pricing" class="nav-btn nav-link">PRICE</a>
+            <a href="#booking" class="nav-btn nav-link">NOTICE</a>
+            <a href="#prep" class="nav-btn nav-link">PREP</a>
+            <a href="#aftercare-brows" class="nav-btn nav-link">CARE</a>
+            <a href="#faq" class="nav-btn nav-link">F.A.Q</a>
+        </nav>
+    </div>
 
     <div class="social-pills">
         <a href="#home" class="circle-btn" title="返回頁首">
             <img src="https://cdn-icons-png.flaticon.com/512/25/25678.png" alt="Up" style="filter: invert(1);">
         </a>
         <a href="https://lin.ee/8j6x32m" class="circle-btn" title="LINE">
-            <img src="images/line.png" alt="我要預約">
+            <img src="images/line.png" alt="LINE">
         </a>
         <a href="https://www.instagram.com/ravenstudiotw/" class="circle-btn" title="Instagram">
-            <img src="images/instagram.png" alt="Instagram">
+            <img src="images/instagram.png" alt="IG">
         </a>
     </div>
 
@@ -263,6 +243,16 @@
         <h1 class="title">RAVEN STUDIO</h1>
         <p class="subtitle">Designed to Enhance, Not Replace.</p>
     </section>
+
+    <script>
+        // 自動收合選單功能
+        const menuToggle = document.getElementById('menu-toggle');
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                menuToggle.checked = false;
+            });
+        });
+    </script>
 
     <section id="pricing">
         <h2 class="section-title">Price List</h2>
