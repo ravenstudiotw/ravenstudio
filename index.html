@@ -144,7 +144,51 @@
     h1.title { font-family: 'Archivo Black', sans-serif; font-size: clamp(3rem, 12vw, 7rem); text-align: center; text-transform: uppercase; line-height: 1.2; animation: blink 0.7s 3 forwards; }
     .subtitle { font-size: 1.2rem; text-align: center; letter-spacing: 3px; }
     h2.section-title { font-size: 2.5rem; font-weight: bold; margin-bottom: 30px; text-transform: uppercase; }
-    .content-box { background: rgba(0,0,0,0.4); padding: 30px; border-radius: 5px; max-width: 600px; margin: 0 auto; }
+    
+        /* ========================================
+   內容框樣式修正 (固定寬度與置中)
+   ======================================== */
+    .content-box {
+        background: rgba(0, 0, 0, 0.5); /* 稍微加深背景 */
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+    
+        padding: 40px;                 /* 增加內距，讓文字更有呼吸感 */
+        border-radius: 2px;            /* 稍微方正一點更俐落 */
+        border-left: 1px solid rgba(255, 255, 255, 0.1); /* 側邊細線 */
+
+        /* 關鍵：固定寬度設定 */
+        width: 90%;                    /* 行動裝置下預留左右間距 */
+        max-width: 650px;              /* 電腦版最大固定寬度 */
+        min-height: 400px;             /* 統一最小高度，確保視覺一致 */
+    
+        /* 關鍵：水平置中 */
+        margin: 0 auto; 
+    
+        display: flex;
+        flex-direction: column;
+        justify-content: center;       /* 內容垂直置中 */
+    }
+
+    /* 針對內容較多的 FAQ 區塊優化 */
+    #faq .content-box {
+        justify-content: flex-start;   /* FAQ 頂部對齊 */
+        height: 550px;                 /* 固定高度 */
+        overflow-y: auto;              /* 超出顯示捲軸 */
+        padding-right: 25px;           /* 預留捲軸空間 */
+    }
+
+    /* 列表樣式微調 */
+    ul {
+        padding: 0;
+    }
+
+    ul li {
+        font-size: 13px;
+        line-height: 1.8;
+        margin-bottom: 20px;
+        text-align: justify;           /* 讓文字邊緣整齊 */
+    }
     .price-item { display: flex; justify-content: space-between; width: 60%; margin: 0 auto 10px auto; font-size: 13px; text-transform: uppercase; }
     .highlight { color: var(--accent-color); font-weight: bold; }
     .content-text { font-size: 13px; text-align: left; margin-bottom: 10px; }
