@@ -73,23 +73,67 @@
     /* ========================================
        3. 電腦版選單 (右側固定)
        ======================================== */
-    /* 讓選單展開/收合更順滑 */
+    /* 1. 容器固定在右上角 */
+.menu-container {
+    position: fixed;
+    top: 25px;
+    right: 25px;
+    z-index: 9999;
+    text-align: right;
+}
+
+/* 2. 隱藏核取方塊 */
+.menu-checkbox {
+    display: none;
+}
+
+/* 3. 統一按鈕樣式 (MENU按鈕 與 選單按鈕共用) */
+.nav-btn {
+    display: block;
+    width: 100px;           /* 統一寬度 */
+    padding: 10px;
+    margin-bottom: 8px;     /* 按鈕之間的間距 */
+    text-align: center;
+    text-decoration: none;
+    color: #fff;
+    font-size: 11px;
+    background: rgba(255, 255, 255, 0.1); /* 玻璃質感背景 */
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* 總按鈕專屬微調 (因為它是 label 而非 a 標籤) */
+.menu-trigger {
+    margin-bottom: 0;       /* 初始狀態沒展開時不需要下間距 */
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+/* 4. 展開後的選單內容 (預設隱藏) */
 .nav-content {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    margin-top: 15px;
+    margin-top: 10px;       /* 與 MENU 按鈕的距離 */
     opacity: 0;
     visibility: hidden;
     transform: translateY(-10px);
-    transition: all 0.3s ease-in-out; /* 使用標準緩動曲線 */
+    transition: all 0.3s ease-in-out;
 }
 
-/* 點擊後的狀態保持不變 */
+/* 當點擊 MENU 後展開 */
 .menu-checkbox:checked ~ .nav-content {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
+}
+
+/* 點擊後 MENU 按鈕的視覺反饋 (可選) */
+.menu-checkbox:checked ~ .menu-trigger {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.5);
 }
 
     .social-pills {
@@ -100,13 +144,6 @@
         display: flex;
         flex-direction: column;
         gap: 12px;
-    }
-
-    .nav-btn {
-        width: 100px; padding: 10px; text-align: center; text-decoration: none;
-        color: #fff; font-size: 10px; background: var(--bg-glass);
-        backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2);
-        border-radius: 10px; transition: 0.3s; letter-spacing: 1px;
     }
 
     .circle-btn {
@@ -138,7 +175,7 @@
        ======================================== */
     @media (max-width: 1400px) {
         section {
-            padding: 100px 5% 60px 5% !important; /* 上方預留更多空間給選單 */
+            padding: 15% 5% 15% 5% !important; /* 上方預留更多空間給選單 */
             background-attachment: scroll !important;
             background-size: cover !important;
             background-position: center center !important;
@@ -170,14 +207,6 @@
             height: 45px;
         }
 
-        .nav-btn {
-            width: 50px; /* 寬度自動 */
-            min-width: 70px;
-            padding: 6px 5px;
-            font-size: 8px;
-            border-radius: 5px;
-        }
-
         /* 文字縮放 */
         h1.title { font-size: 2.5rem; }
         .subtitle { font-size: 0.7rem; text-align: center; letter-spacing: 3px; }
@@ -190,8 +219,8 @@
 
     <div class="menu-container">
     <input type="checkbox" id="menu-toggle" class="menu-checkbox">
-    <label for="menu-toggle" class="menu-trigger">
-        <span>MENU</span>
+    <label for="menu-toggle" class="menu-trigger nav-btn">
+        MENU
     </label>
     
     <nav class="nav-content">
@@ -201,7 +230,7 @@
         <a href="#aftercare-brows" class="nav-btn nav-link">CARE</a>
         <a href="#faq" class="nav-btn nav-link">F.A.Q</a>
     </nav>
-    </div>
+</div>
 
     <script>
     // 取得選單開關的 Checkbox
