@@ -30,14 +30,17 @@
        ======================================== */
     section {
         min-height: 100vh;
-        padding: 80px 15% 80px 10%; 
+        padding: 80px 15% 80px 7%; 
         display: flex;
         flex-direction: column;
         justify-content: center;
+        align-items: flex-start;
+
         background-attachment: scroll; /* 預設捲動防止所有平板變形 */
         background-size: cover;
         background-position: center;
-        position: relative; z-index: 10;
+        position: relative; 
+        z-index: 10;
         border-bottom: 1px solid rgba(255,255,255,0.1);
     }
 
@@ -54,6 +57,7 @@
         justify-content: flex-end; /* 垂直方向：靠下 */
         align-items: center;      /* 水平方向：置中 */
         padding-bottom: 10vh;
+        padding: 80px 0 !important; /* 左右不留白，讓 h1 自由置中 */
     } 
     #pricing { background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('images/price-PC.png'); }
     #booking { background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('images/booking-PC.png'); }
@@ -217,7 +221,7 @@
         min-height: 400px;             /* 統一最小高度，確保視覺一致 */
     
         /* 關鍵：水平置中 */
-        margin: 0 0 0 10%; 
+        margin: 0; 
     
         display: flex;
         flex-direction: column;
@@ -245,7 +249,7 @@
         text-align: justify;           /* 讓文字邊緣整齊 */
         list-style: none;
     }
-    .price-item { display: flex; justify-content: space-between; width: 60%; margin: 0 auto 10px auto; font-size: 0.8rem; text-transform: uppercase; }
+    .price-item { display: flex; justify-content: space-between; width: 60%; margin: 0 auto 10px auto; align-items: center;; font-size: 0.8rem; text-transform: uppercase; max-width: 650px; }
     .highlight { color: var(--accent-color); font-weight: bold; }
     .content-text { font-size: 0.8rem; text-align: left; margin-bottom: 10px; }
 
@@ -257,6 +261,7 @@
     @media (max-width: 1400px) {
         section { 
         padding: 60px 5% !important; 
+        align-items: center;
         background-attachment: scroll !important; 
         background-size: cover !important; 
         background-position: center center !important;
@@ -264,7 +269,7 @@
         height: auto; 
         min-height: 100vh; 
         }
-        #home { background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('images/home-M.png'); justify-content: center; align-items: center; } } 
+        #home { background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('images/home-M.png'); justify-content: center; align-items: center; } 
         #pricing { background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('images/price-M.png'); }
         #booking { background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('images/booking-M.png'); }
         #aftercare-brows { background-image: url('images/brow-M.png'); }
